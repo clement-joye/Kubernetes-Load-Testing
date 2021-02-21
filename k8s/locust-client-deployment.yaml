@@ -1,0 +1,35 @@
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  name: locust-client-deployment
+spec:
+  replicas: {replicas}
+  selector:
+    matchLabels:
+      app: locust-client
+  template:
+    metadata:
+      labels:
+        app: locust-client
+    spec:
+      containers:
+      - image: {image}
+        name: locust-container
+        imagePullPolicy: Always
+        env:
+          - name: LOCUST_MASTER_NODE_HOST
+            value: "10.96.0.2"
+          - name: LOCUST_DOWNLOAD_RESOURCES
+            value: "{download-resources}"
+        volumeMounts:
+        - name: locust-client-cm
+          mountPath: "/home/locust/"
+        - name: locust-report-pv
+          mountPath: "/reports"
+      volumes:
+      - name: locust-client-cm
+        configMap:
+          name: locust-client-cm
+      - name: locust-report-pv
+        persistentVolumeClaim:
+          claimName: locust-report-pvc

@@ -1,0 +1,33 @@
+apiVersion: "v1"
+kind: Pod
+metadata:
+  name: locust-server-pod
+  labels:
+    app: locust-server-pod
+spec:
+  containers:
+  - image: {image}
+    name: locust-container
+    imagePullPolicy: Always
+    ports:
+      - name: loc-server-web
+        containerPort: 8089
+        protocol: TCP
+      - name: loc-server-p1
+        containerPort: 5557
+        protocol: TCP
+      - name: loc-server-p2
+        containerPort: 5558
+        protocol: TCP
+    volumeMounts:
+    - name: locust-server-cm
+      mountPath: "/home/locust/"
+    - name: locust-report-pv
+      mountPath: "/reports"
+  volumes:
+  - name: locust-server-cm
+    configMap:
+      name: locust-server-cm
+  - name: locust-report-pv
+    persistentVolumeClaim:
+      claimName: locust-report-pvc

@@ -1,0 +1,37 @@
+{
+    "cluster":
+    {
+        "resourceGroup": "your-resource-group",
+        "name": "your-cluster-name",
+        "nodeCount": 5,
+        "vmSize": "Standard_DS2_v2",
+        "wait": false,
+        "isLocal": true
+    },
+    "template": 
+    {
+        "image": "your-docker-image",
+        "replicas": 30,
+        "download-resources": true
+    },
+    "server": 
+    {
+        "master": true,
+        "headless": true,
+        "host": "https://your-base-url",
+        "expect-workers": 30,
+        "users": 1000,
+        "spawn-rate": 1,
+        "run-time": "5m",
+        "print-stats": true,
+        "csv": "/reports/load-test",
+        "html": "/reports/load-test.html"
+    },
+    "client": 
+    {
+        "worker": true,
+        "headless": true,
+        "host": "https://your-base-url"
+    },
+    "script": "../locust-scripts/simple/locustfile.py"
+}

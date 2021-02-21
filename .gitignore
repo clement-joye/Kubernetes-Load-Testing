@@ -1,0 +1,7 @@
+# configuration files
+.vscode/
+
+# folders
+deployments/
+reports/
+logging/
